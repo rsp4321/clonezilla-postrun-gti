@@ -1,0 +1,3 @@
+Tem que tirar a extensão ao colocar na /etc/cron.hourly
+Tem que dar permissão de execução no local
+Tem que rodar o run-parts --test /etc/cron.hourly para ver se ele aparece na lista de execução
