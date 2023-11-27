@@ -1,0 +1,5 @@
+# Configuração para definir o autoCRLF para todos os clientes 
+# e definir a conversão automática dos caracteres de fim de linha nos shell scripts 
+# pro padrão LF (do unix)
+* text=auto
+*.sh text eol=lf

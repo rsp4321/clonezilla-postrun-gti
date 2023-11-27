@@ -43,12 +43,23 @@ incluiNoLog( ) {
 incluiNoLog "Iniciando a execução do script..."
 #pause
 
+# Verificando se o script já está sendo executado
+if [ -f /tmp/executando-ingresso-auto.conf-flag ]; then
+
+    incluiNoLog "Script de ingresso já em execução. Saindo..."
+    exit
+fi
+
+
 # Verificando se já tá ingressado pela flag
 if [ -f /etc/conf-gti/ingressado.conf-flag ]; then
 
     incluiNoLog "Micro já ingressado. Saindo..."
     exit
 fi
+
+# Criando a flag de execução pra impedir execução repetida do mesmo pelo cron
+touch /tmp/executando-ingresso-auto.conf-flag 
 
 #set +x # para desabilitar o debugging
 
@@ -88,8 +99,8 @@ fi
 #while [ -z $resultado_ingresso ]; do
 while [ -z "$resultado_ingresso" ]; do
 
-    incluiNoLog "Começando o delay de 10 min para subir a rede..."
-    sleep 600
+    incluiNoLog "Começando o delay de 1 min para subir a rede..."
+    sleep 60
 
     # ingressando direto e guardando a saída para verificar
     incluiNoLog "Fazendo o ingresso no domínio..."
@@ -125,13 +136,19 @@ incluiNoLog "Ordem de boot alterada. Retirando da execução automática do cron
 #    mv /etc/cron.daily/ingressar-linux-auto.sh /etc/cron.daily/ingressar-linux-auto.sh.disabled
 #    chmod -x /etc/cron.daily/ingressar-linux-auto.sh.disabled
 
-if [ -f /etc/cron.hourly/ingressar-linux-auto ]; then
-    mv /etc/cron.hourly/ingressar-linux-auto /etc/cron.hourly/ingressar-linux-auto.disabled
-    chmod -x /etc/cron.hourly/ingressar-linux-auto.disabled
-fi
+#if [ -f /etc/cron.hourly/ingressar-linux-auto ]; then
+#    mv /etc/cron.hourly/ingressar-linux-auto /etc/cron.hourly/ingressar-linux-auto.disabled
+#    chmod -x /etc/cron.hourly/ingressar-linux-auto.disabled
+#fi
+
+rm /etc/cron.d/gti-ingresso-auto-dominio
 
 incluiNoLog "Desativada a execução automática do script no cron. Reiniciando..."
 
+# excluindo a flag de execução
+rm /tmp/executando-ingresso-auto.conf-flag 
+
 systemctl reboot
+#systemctl poweroff
 
 #fi     # if resultado_ingresso;

@@ -1,0 +1,2 @@
+#Configuraço para executar o script de ingresso a cada 1 min
+* *	* * *	root	/opt/scripts/ingressar-linux-auto.sh

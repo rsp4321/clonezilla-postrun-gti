@@ -19,8 +19,11 @@ function Emitir-Log {
 
 $SUFIXO_ARQUIVO = "ingressar-win-auto_"
 
+$DOMINIO="SEU_DOMINIO"
+$DOMINIO_COMPLETO="SEU_DOMINIO_FQDN"
 $SENHA = "SUA_SENHA"
 #$SENHA = "123abc"
+# o usuário é o "script.ingresso" só pra constar
 
 Emitir-Log -sufixo_arquivo $SUFIXO_ARQUIVO -msg "Iniciando a execução do script..."
 
@@ -67,8 +70,8 @@ if ( !(Test-Path 'C:\conf-gti\renomeado.conf-flag') ) {
 
 do {
 
-    Emitir-Log -sufixo_arquivo $SUFIXO_ARQUIVO -msg "Fazendo um delay de 10 min para subir a rede..."
-    Start-Sleep -Seconds 600
+    Emitir-Log -sufixo_arquivo $SUFIXO_ARQUIVO -msg "Fazendo um delay de 1 min para subir a rede..."
+    Start-Sleep -Seconds 60
 
 
     # ingressar a máquina e verificar o ingresso
@@ -111,7 +114,8 @@ do {
     #$secure_password = ConvertTo-SecureString -String '$SENHA' -AsPlainText -Force
     $secure_password = ConvertTo-SecureString -String "$SENHA" -AsPlainText -Force
 
-    $joinCred = New-Object System.Management.Automation.PSCredential ("DOMINIO\script.ingresso", $secure_password)
+    #$joinCred = New-Object System.Management.Automation.PSCredential ("DOMINIO\script.ingresso", $secure_password)
+    $joinCred = New-Object System.Management.Automation.PSCredential (( $DOMINIO + '\script.ingresso' ), $secure_password)
 
     # Para usar credenciais de usuário, não é necessário fazer um ingresso considerado não seguro (unsecured join)
     #$resultado_ingresso = Add-Computer "DOMINIO_COMPLETO" -Credential $joinCred -PassThru
@@ -121,7 +125,7 @@ do {
 
     # Ingressando já com o micro renomeado e reiniciado para corrigir um bug do samba a princípio
     # onde ele registra alguns campos da conta de máquina com o hostname atual da máquina gerando falhas de acesso ao BD de segurança ao logar com usuário de rede
-    $resultado_ingresso = Add-Computer "DOMINIO_COMPLETO" -Credential $joinCred -PassThru
+    $resultado_ingresso = Add-Computer $DOMINIO_COMPLETO -Credential $joinCred -PassThru
 
 
     # Com o parâmetro "-PassThru", o comando retorna um objeto que possui a propriedade "HasSucceded" booleana para indicar se houve sucesso no ingresso
