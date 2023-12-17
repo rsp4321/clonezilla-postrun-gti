@@ -1,0 +1,8 @@
+Roteiro de preparação para execução no Clonezilla
+
+* entre na pasta indicada por tipo de matriz
+* edite o prefixo.conf com o prefixo do lab.. Recomendo colocar um prefixo separado do padrão, como "l4a" ou "l5a"
+* Retire as extensões *.sh dos scripts pois não serão executados com a extensão
+* zipe com todos os outros arquivos usando o comando "zip -r /tmp/gti-postrun.zip *" na pasta contendo os arquivos. Tem que ter o nome gti-postrun.zip
+* copie o zip pra pasta de uso do servidor TFTP para cópia de arquivos /tftpboot/nbi_img
+* vá no modo expert de clonagem do Clonezilla e habilite o PRERUN e o POSTRUN
