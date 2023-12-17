@@ -18,6 +18,7 @@ The prerun script is injected on the ISO of Clonezilla. In massive deployment mo
 ## How to use?
 * Inject the prerun script in the prerun folder in a Clonezilla image. [This guide may help injecting them.](https://drbl.org/fine-print.php?path=./faq/2_System/81_add_prog_in_filesystem-squashfs.faq#81_add_prog_in_filesystem-squashfs.faq) You can download an modified image [here](https://github.com/rsp4321/clonezilla-postrun-gti/releases).
 * Boot the modified ISO and open the shell
+* Remove the _*.sh_ extension from  scripts' filename
 * Zip the postrun scripts in file named *"gti-postrun.zip"*
 * Copy the zip to the TFTP server folder */tftboot/nbi_img*
 * Open clonezilla's *expert mode* and enable *PRERUN* and *POSTRUN* script execution
