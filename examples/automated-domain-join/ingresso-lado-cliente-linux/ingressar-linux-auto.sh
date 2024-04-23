@@ -121,7 +121,10 @@ incluiNoLog "Ingressado com sucesso. Alterando a ordem do menu do grub..."
 
 # alterando a ordem de boot do menu do GRUB
 mv /etc/grub.d/21_os-prober /etc/grub.d/08_os-prober
-update-grub
+
+# Por limitação do cron, não tá definido na PATH o dir. /usr/sbin . Tem que explicitar para chamar o utilitário
+#update-grub
+/usr/sbin/grub-mkconfig -o /boot/grub/grub.cfg
 
 # criando a flag pra indicar o ingresso
 if [ ! -d "/etc/conf-gti/" ]; then
